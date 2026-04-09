@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juliet</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --paper: #f2efe7;
+      --ink: #171717;
+      --rule: rgba(23, 23, 23, 0.14);
+      --body1: 19px;
+      --body2: 16px;
+      --line: 1.18;
+      --page-width: min(40vw, 620px);
+      --page-min: 520px;
+      --page-height: calc(100vh - 72px);
+      --pad-x: 22px;
+      --pad-y: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Guyot Text", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 36px 18px;
+    }
+
+    .page {
+      width: max(var(--page-min), var(--page-width));
+      max-width: 92vw;
+      height: var(--page-height);
+      min-height: 700px;
+      background: var(--paper);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: var(--pad-y) var(--pad-x) 18px;
+      position: relative;
+      scrollbar-width: thin;
+    }
+
+    .page::-webkit-scrollbar { width: 7px; }
+    .page::-webkit-scrollbar-thumb { background: rgba(0,0,0,.25); }
+
+    .chrome {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 108px;
+      gap: 24px;
+    }
+
+    .brand-wrap {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      justify-content: flex-end;
+      min-width: 120px;
+    }
+
+    .star-link,
+    .brand,
+    .menu-link,
+    .archive-link,
+    .work-nav,
+    .plain-link {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .star-link:hover,
+    .brand:hover,
+    .menu-link:hover,
+    .archive-link:hover,
+    .work-nav:hover,
+    .plain-link:hover {
+      opacity: 0.76;
+    }
+
+    .star-link,
+    .brand,
+    .menu-link,
+    .archive-link,
+    .heading,
+    .work-title,
+    .work-nav,
+    .plain-text {
+      font-size: var(--body1);
+      line-height: var(--line);
+      font-weight: 400;
+    }
+
+    .small,
+    .poem,
+    .bio,
+    .submission-copy,
+    .masthead-copy,
+    .archive-copy,
+    .captionish {
+      font-size: var(--body2);
+      line-height: var(--line);
+      font-weight: 400;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      align-items: flex-start;
+    }
+
+    .screen-home {
+      min-height: calc(var(--page-height) - 40px);
+    }
+
+    .work-header-space {
+      height: 10px;
+    }
+
+    .work-title {
+      margin: 0 0 34px 0;
+    }
+
+    .epigraph {
+      margin: 0 0 24px 28px;
+      font-style: italic;
+    }
+
+    .poem {
+      white-space: pre-wrap;
+      margin: 0;
+      max-width: 66%;
+    }
+
+    .bio {
+      width: 38%;
+      margin-left: auto;
+      margin-top: 44px;
+      white-space: pre-wrap;
+    }
+
+    .work-bottom {
+      margin-top: 130px;
+      padding-top: 12px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .work-nav {
+      letter-spacing: 0.01em;
+    }
+
+    .archive-list,
+    .masthead-block,
+    .submission-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      align-items: flex-start;
+      max-width: 80%;
+    }
+
+    .archive-group,
+    .masthead-copy,
+    .submission-copy {
+      margin-bottom: 22px;
+    }
+
+    .section-spacer { height: 6px; }
+
+    .hidden { display: none; }
+
+    @media (max-width: 980px) {
+      :root {
+        --page-width: 86vw;
+        --page-min: 0px;
+        --body1: 18px;
+        --body2: 15px;
+      }
+
+      .page {
+        min-height: 78vh;
+      }
+
+      .poem { max-width: 82%; }
+      .bio { width: 52%; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 16px 10px; }
+      :root {
+        --body1: 17px;
+        --body2: 14px;
+      }
+      .chrome {
+        margin-bottom: 88px;
+      }
+      .poem,
+      .bio,
+      .archive-list,
+      .masthead-block,
+      .submission-block {
+        max-width: 100%;
+        width: 100%;
+      }
+      .bio { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" id="app"></main>
+
+  <script>
+    const content = {
+      title: "Juliet",
+      about: "Juliet is a journal of writing, publishing poetry and prose. We publish on a rolling basis. This project is inspired by friends.",
+      editors: "Editors. Andrew Kang, Daniel Liu.",
+      submissions: "Please email your submission to juliet@gmail.com, including your name, a short biography, and either one to three poems or one work of prose, in one .docx file.",
+      archive: [
+        {
+          season: "Spring 2026",
+          items: [
+            { title: "Hua Xi", route: "hua-xi" },
+            { title: "Aria Aber", route: "aria-aber" }
+          ]
+        }
+      ],
+      works: {
+        "hua-xi": {
+          title: "Lightning Field",
+          epigraph: "after The Lightning Field, by Walter de Maria (New Mexico) 1977",
+          text: `It’s death outside\nbut each passing headlight\nis a howl through the canyons.\nThe universe makes a thousand copies of everything:\nflat scrub grass, sawtooth mountains\npaper bag bush\nand the desert woolly star.\nReminds me of leaving the office,\nthe mirage of one last coworker headed to his car\nin the violet after hours,\nin the way out there,\na blemish on the face of the moon.\nHere I have my little life,\nentering numbers into a spreadsheet,\nboundless scrolling\nthrough the twinkling, untilled field,\nso the cells can conduct electricity\nand a flash of people kissing, chatting, staying up at night\ncan pass through the air.\nOut there, \nonly metal can pierce the sky without dying,\nwhich I guess really means that\nonly objects may receive a violence\nso vast as to be beautiful.`,
+          bio: `Hua Xi is a writer and artist and occasional art critic. Their work has appeared in American Poetry Review, The Nation and Boston Review. They love the sky. Twitter/Insta: @huaxixyz`,
+          next: "aria-aber"
+        },
+        "aria-aber": {
+          title: "Mother of All Balms",
+          epigraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          text: `Morning she comes, mother of all balms.\n\nOnly the news reporter says it wrong:\nbut aren’t you strung: little ping\n\nand doesn’t memory embalm\n          your most-hurt city:\n\nthose yellow creeks                    of your rickety holm\nwhere your mater: your salve:\n\nleft all her selves behind\nso she could surrender to a lifetime\n\nof Septembering: what she members most:\n\nyellow grapes and celeries\nand visiting her father’s glove\n\na balm, to be by absence so enclaved:\n\nyour mender\na follower, devoted\n\nto what she cannot see. O air miles,\nhow can it be real?\n\nHow uncertain you should\nbe          if it existed, if there are no photos left\n\nof her playing\non her childhood lawn—\n\nburned are all the documents, or eaten—\n\nthis ink,\nlike memory,\nan ancient unguent,\n\nenshrining what cannot be held\nof what went missing—the dog, her hat of hay,\n\none brother.                    She was in prism,\n\nyour mother says—and that’s how you will write her,\n\natoning her, just in fluorite a figurine caught\n\nto fracture                    her stolen years,\n                              her brother,\n\nall her once-upon-a-chimes.`,
+          bio: `Aria Aber was raised in Germany, where she was born to Afghan refugees, and is based in Oakland, California. She is the author of Hard Damage (University of Nebraska Press, 2019) and is currently a Stegner Fellow in Poetry at Stanford University.`,
+          next: "hua-xi"
+        }
+      }
+    };
+
+    const app = document.getElementById('app');
+
+    function route() {
+      const hash = window.location.hash.replace('#', '') || 'home';
+      render(hash);
+    }
+
+    function chrome(leftHtml, minimal = false) {
+      return `
+        <header class="chrome ${minimal ? 'chrome-minimal' : ''}">
+          <div>${leftHtml}</div>
+          <div class="brand-wrap">
+            <a class="star-link" href="#home" aria-label="Home">✦</a>
+            <a class="brand" href="#home">${content.title}</a>
+          </div>
+        </header>
+      `;
+    }
+
+    function renderHome() {
+      app.innerHTML = `
+        <section class="screen-home">
+          ${chrome(`
+            <nav class="menu" aria-label="Main menu">
+              <a class="menu-link" href="#current">Current</a>
+              <a class="menu-link" href="#archive">Archive</a>
+              <a class="menu-link" href="#masthead">Masthead</a>
+              <a class="menu-link" href="#submissions">Submissions</a>
+            </nav>
+          `)}
+        </section>
+      `;
+    }
+
+    function renderWork(key) {
+      const work = content.works[key];
+      if (!work) return renderHome();
+
+      app.innerHTML = `
+        <section>
+          ${chrome('', true)}
+          <div class="work-header-space"></div>
+          <h1 class="work-title">${work.title}</h1>
+          <div class="epigraph small">${work.epigraph}</div>
+          <pre class="poem">${work.text}</pre>
+          <div class="bio">${work.bio}</div>
+          <div class="work-bottom">
+            <a class="work-nav" href="#${work.next}" aria-label="Next work">→</a>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderArchive() {
+      const groups = content.archive.map(group => `
+        <div class="archive-group">
+          <div class="archive-copy">${group.season}</div>
+          ${group.items.map(item => `<a class="archive-link heading" href="#${item.route}">${item.title}</a>`).join('')}
+        </div>
+      `).join('');
+
+      app.innerHTML = `
+        <section>
+          ${chrome(`
+            <div class="heading">Archive</div>
+          `)}
+          <div class="archive-list">${groups}</div>
+        </section>
+      `;
+    }
+
+    function renderMasthead() {
+      app.innerHTML = `
+        <section>
+          ${chrome(`
+            <div class="heading">Masthead</div>
+          `)}
+          <div class="masthead-block">
+            <div class="masthead-copy">${content.about}</div>
+            <div class="masthead-copy">${content.editors}</div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderSubmissions() {
+      app.innerHTML = `
+        <section>
+          ${chrome(`
+            <div class="heading">Submissions</div>
+          `)}
+          <div class="submission-block">
+            <div class="submission-copy">${content.submissions}</div>
+          </div>
+        </section>
+      `;
+    }
+
+    function render(hash) {
+      if (hash === 'home') return renderHome();
+      if (hash === 'current') return renderWork('hua-xi');
+      if (hash === 'archive') return renderArchive();
+      if (hash === 'masthead') return renderMasthead();
+      if (hash === 'submissions') return renderSubmissions();
+      if (content.works[hash]) return renderWork(hash);
+      renderHome();
+    }
+
+    window.addEventListener('hashchange', route);
+    window.addEventListener('load', route);
+  </script>
+</body>
+</html>
