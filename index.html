@@ -7,7 +7,7 @@
   <style>
     :root {
       --bg: #050505;
-      --paper: #f2efe7;
+      --paper: #FAF8ED;
       --ink: #171717;
       --rule: rgba(23, 23, 23, 0.14);
       --body1: 19px;
@@ -18,6 +18,9 @@
       --page-height: calc(100vh - 72px);
       --pad-x: 22px;
       --pad-y: 20px;
+
+      /* CHANGE FONT HERE */
+      --font-main: "Guyot Text", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
     }
 
     * { box-sizing: border-box; }
@@ -27,7 +30,7 @@
       min-height: 100%;
       background: var(--bg);
       color: var(--ink);
-      font-family: "Guyot Text", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-family: var(--font-main);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
@@ -96,7 +99,8 @@
     .heading,
     .work-title,
     .work-nav,
-    .plain-text {
+    .plain-text,
+    .archive-season {
       font-size: var(--body1);
       line-height: var(--line);
       font-weight: 400;
@@ -107,7 +111,6 @@
     .bio,
     .submission-copy,
     .masthead-copy,
-    .archive-copy,
     .captionish {
       font-size: var(--body2);
       line-height: var(--line);
@@ -119,6 +122,11 @@
       flex-direction: column;
       gap: 0;
       align-items: flex-start;
+    }
+
+    .archive-link,
+    .archive-season {
+      display: block;
     }
 
     .screen-home {
@@ -142,6 +150,10 @@
       white-space: pre-wrap;
       margin: 0;
       max-width: 66%;
+      font-family: inherit;
+      border: 0;
+      background: transparent;
+      padding: 0;
     }
 
     .bio {
@@ -180,7 +192,9 @@
       margin-bottom: 22px;
     }
 
-    .section-spacer { height: 6px; }
+    .archive-season {
+      margin-bottom: 0;
+    }
 
     .hidden { display: none; }
 
@@ -225,51 +239,82 @@
   <main class="page" id="app"></main>
 
   <script>
-    const content = {
+    /*
+      ========================================================
+      EDIT CONTENT HERE
+      ========================================================
+
+      HOW TO ADD A NEW WORK:
+      1. Add a new object to `works` below.
+      2. Give it a unique `slug`.
+      3. Add that same slug into the `archive` section where you want it to appear.
+      4. If you want it to be the newest published work, change `current` to that slug.
+
+      EPIGRAPHS:
+      - Use epigraph: "..." if a work has one.
+      - Use epigraph: "" or remove the field entirely if it does not.
+
+      CHANGE ARCHIVE ORDER:
+      - Reorder the slugs inside `archive`.
+      - Add new seasonal groups, rename them, or remove them.
+    */
+
+    const site = {
       title: "Juliet",
+      current: "hua-xi",
       about: "Juliet is a journal of writing, publishing poetry and prose. We publish on a rolling basis. This project is inspired by friends.",
       editors: "Editors. Andrew Kang, Daniel Liu.",
       submissions: "Please email your submission to juliet@gmail.com, including your name, a short biography, and either one to three poems or one work of prose, in one .docx file.",
+
       archive: [
         {
           season: "Spring 2026",
-          items: [
-            { title: "Hua Xi", route: "hua-xi" },
-            { title: "Aria Aber", route: "aria-aber" }
-          ]
+          works: ["hua-xi", "aria-aber"]
         }
       ],
-      works: {
-        "hua-xi": {
+
+      works: [
+        {
+          slug: "hua-xi",
+          author: "Hua Xi",
           title: "Lightning Field",
           epigraph: "after The Lightning Field, by Walter de Maria (New Mexico) 1977",
           text: `It’s death outside\nbut each passing headlight\nis a howl through the canyons.\nThe universe makes a thousand copies of everything:\nflat scrub grass, sawtooth mountains\npaper bag bush\nand the desert woolly star.\nReminds me of leaving the office,\nthe mirage of one last coworker headed to his car\nin the violet after hours,\nin the way out there,\na blemish on the face of the moon.\nHere I have my little life,\nentering numbers into a spreadsheet,\nboundless scrolling\nthrough the twinkling, untilled field,\nso the cells can conduct electricity\nand a flash of people kissing, chatting, staying up at night\ncan pass through the air.\nOut there, \nonly metal can pierce the sky without dying,\nwhich I guess really means that\nonly objects may receive a violence\nso vast as to be beautiful.`,
-          bio: `Hua Xi is a writer and artist and occasional art critic. Their work has appeared in American Poetry Review, The Nation and Boston Review. They love the sky. Twitter/Insta: @huaxixyz`,
-          next: "aria-aber"
+          bio: `Hua Xi is a writer and artist and occasional art critic. Their work has appeared in American Poetry Review, The Nation and Boston Review. They love the sky. Twitter/Insta: @huaxixyz`
         },
-        "aria-aber": {
+        {
+          slug: "aria-aber",
+          author: "Aria Aber",
           title: "Mother of All Balms",
+          epigraph: "",
           text: `Morning she comes, mother of all balms.\n\nOnly the news reporter says it wrong:\nbut aren’t you strung: little ping\n\nand doesn’t memory embalm\n          your most-hurt city:\n\nthose yellow creeks                    of your rickety holm\nwhere your mater: your salve:\n\nleft all her selves behind\nso she could surrender to a lifetime\n\nof Septembering: what she members most:\n\nyellow grapes and celeries\nand visiting her father’s glove\n\na balm, to be by absence so enclaved:\n\nyour mender\na follower, devoted\n\nto what she cannot see. O air miles,\nhow can it be real?\n\nHow uncertain you should\nbe          if it existed, if there are no photos left\n\nof her playing\non her childhood lawn—\n\nburned are all the documents, or eaten—\n\nthis ink,\nlike memory,\nan ancient unguent,\n\nenshrining what cannot be held\nof what went missing—the dog, her hat of hay,\n\none brother.                    She was in prism,\n\nyour mother says—and that’s how you will write her,\n\natoning her, just in fluorite a figurine caught\n\nto fracture                    her stolen years,\n                              her brother,\n\nall her once-upon-a-chimes.`,
-          bio: `Aria Aber was raised in Germany, where she was born to Afghan refugees, and is based in Oakland, California. She is the author of Hard Damage (University of Nebraska Press, 2019) and is currently a Stegner Fellow in Poetry at Stanford University.`,
-          next: "hua-xi"
+          bio: `Aria Aber was raised in Germany, where she was born to Afghan refugees, and is based in Oakland, California. She is the author of Hard Damage (University of Nebraska Press, 2019) and is currently a Stegner Fellow in Poetry at Stanford University.`
         }
-      }
+      ]
     };
 
+    const workMap = Object.fromEntries(site.works.map(work => [work.slug, work]));
     const app = document.getElementById('app');
+
+    function getNextSlug(slug) {
+      const index = site.works.findIndex(work => work.slug === slug);
+      if (index === -1) return site.current;
+      const nextIndex = (index + 1) % site.works.length;
+      return site.works[nextIndex].slug;
+    }
 
     function route() {
       const hash = window.location.hash.replace('#', '') || 'home';
       render(hash);
     }
 
-    function chrome(leftHtml, minimal = false) {
+    function chrome(leftHtml) {
       return `
-        <header class="chrome ${minimal ? 'chrome-minimal' : ''}">
+        <header class="chrome">
           <div>${leftHtml}</div>
           <div class="brand-wrap">
             <a class="star-link" href="#home" aria-label="Home">✦</a>
-            <a class="brand" href="#home">${content.title}</a>
+            <a class="brand" href="#home">${site.title}</a>
           </div>
         </header>
       `;
@@ -290,32 +335,46 @@
       `;
     }
 
-    function renderWork(key) {
-      const work = content.works[key];
+    function renderWork(slug) {
+      const work = workMap[slug];
       if (!work) return renderHome();
+
+      const epigraphHtml = work.epigraph
+        ? `<div class="epigraph small">${work.epigraph}</div>`
+        : '';
 
       app.innerHTML = `
         <section>
-          ${chrome('', true)}
+          ${chrome(`
+            <div class="heading">${work.author}</div>
+          `)}
           <div class="work-header-space"></div>
           <h1 class="work-title">${work.title}</h1>
-          <div class="epigraph small">${work.epigraph}</div>
+          ${epigraphHtml}
           <pre class="poem">${work.text}</pre>
           <div class="bio">${work.bio}</div>
           <div class="work-bottom">
-            <a class="work-nav" href="#${work.next}" aria-label="Next work">→</a>
+            <a class="work-nav" href="#${getNextSlug(slug)}" aria-label="Next work">→</a>
           </div>
         </section>
       `;
     }
 
     function renderArchive() {
-      const groups = content.archive.map(group => `
-        <div class="archive-group">
-          <div class="archive-copy">${group.season}</div>
-          ${group.items.map(item => `<a class="archive-link heading" href="#${item.route}">${item.title}</a>`).join('')}
-        </div>
-      `).join('');
+      const groups = site.archive.map(group => {
+        const items = group.works
+          .map(slug => workMap[slug])
+          .filter(Boolean)
+          .map(work => `<a class="archive-link" href="#${work.slug}">${work.author}</a>`)
+          .join('');
+
+        return `
+          <div class="archive-group">
+            <div class="archive-season">${group.season}</div>
+            ${items}
+          </div>
+        `;
+      }).join('');
 
       app.innerHTML = `
         <section>
@@ -334,8 +393,8 @@
             <div class="heading">Masthead</div>
           `)}
           <div class="masthead-block">
-            <div class="masthead-copy">${content.about}</div>
-            <div class="masthead-copy">${content.editors}</div>
+            <div class="masthead-copy">${site.about}</div>
+            <div class="masthead-copy">${site.editors}</div>
           </div>
         </section>
       `;
@@ -348,7 +407,7 @@
             <div class="heading">Submissions</div>
           `)}
           <div class="submission-block">
-            <div class="submission-copy">${content.submissions}</div>
+            <div class="submission-copy">${site.submissions}</div>
           </div>
         </section>
       `;
@@ -356,11 +415,11 @@
 
     function render(hash) {
       if (hash === 'home') return renderHome();
-      if (hash === 'current') return renderWork('hua-xi');
+      if (hash === 'current') return renderWork(site.current);
       if (hash === 'archive') return renderArchive();
       if (hash === 'masthead') return renderMasthead();
       if (hash === 'submissions') return renderSubmissions();
-      if (content.works[hash]) return renderWork(hash);
+      if (workMap[hash]) return renderWork(hash);
       renderHome();
     }
 
