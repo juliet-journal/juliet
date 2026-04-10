@@ -24,6 +24,15 @@
 
       /* CHANGE FONT HERE */
       --font-main: "Cormorant Garamond", Georgia, serif;
+
+      /* HOME IMAGE SETTINGS */
+      --home-image-file: "home-image.png"; /* replace with your image filename */
+      --home-image-width-desktop: calc(100% - 120px); /* tweak to match Current -> t in Juliet */
+      --home-image-width-tablet: calc(100% - 104px);
+      --home-image-width-mobile: calc(100% - 84px);
+      --home-image-bottom-desktop: 20px;
+      --home-image-bottom-tablet: 18px;
+      --home-image-bottom-mobile: 14px;
     }
 
     * { box-sizing: border-box; }
@@ -75,21 +84,6 @@
       display: none;
       width: 0;
       height: 0;
-    }
-
-    .site-footer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding: 0 0 2px;
-    }
-
-    .footer-mark {
-      display: block;
-      width: 54px;   /* change size here */
-      height: auto;
-      opacity: 0.95; /* change opacity here */
     }
 
     .chrome {
@@ -169,6 +163,23 @@
 
     .screen-home {
       min-height: calc(var(--page-height) - 40px);
+      position: relative;
+    }
+
+    .home-art {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: var(--home-image-bottom-desktop);
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .home-art img {
+      display: block;
+      width: var(--home-image-width-desktop);
+      max-width: 100%;
+      height: auto;
     }
 
     .work-header-space {
@@ -265,8 +276,12 @@
       .poem { max-width: 82%; }
       .bio { width: 52%; }
 
-      .footer-mark {
-        width: 48px;
+      .home-art {
+        bottom: var(--home-image-bottom-tablet);
+      }
+
+      .home-art img {
+        width: var(--home-image-width-tablet);
       }
     }
 
@@ -309,8 +324,12 @@
         margin-top: 92px;
       }
 
-      .footer-mark {
-        width: 42px;
+      .home-art {
+        bottom: var(--home-image-bottom-mobile);
+      }
+
+      .home-art img {
+        width: var(--home-image-width-mobile);
       }
     }
   </style>
@@ -318,14 +337,6 @@
 <body>
   <div class="page-shell">
     <main class="page" id="app"></main>
-
-    <footer class="site-footer" aria-hidden="true">
-      <img
-        class="footer-mark"
-        src="Untitled design (22).png"
-        alt=""
-      />
-    </footer>
   </div>
 
   <script>
@@ -347,7 +358,14 @@
       CHANGE ARCHIVE ORDER:
       - Reorder the slugs inside `archive`.
       - Add new seasonal groups, rename them, or remove them.
+
+      CHANGE THE HOME IMAGE:
+      - Upload a new image file into the same GitHub repo folder as index.html.
+      - Replace the filename in HOME_IMAGE below.
+      - If needed, tweak the width variables in :root.
     */
+
+    const HOME_IMAGE = "home-image.png";
 
     const content = {
       title: "Juliet",
@@ -367,7 +385,30 @@
           author: "Hua Xi",
           title: "Lightning Field",
           epigraph: "after The Lightning Field, by Walter de Maria (New Mexico) 1977",
-          text: `It’s death outside\nbut each passing headlight\nis a howl through the canyons.\nThe universe makes a thousand copies of everything:\nflat scrub grass, sawtooth mountains\npaper bag bush\nand the desert woolly star.\nReminds me of leaving the office,\nthe mirage of one last coworker headed to his car\nin the violet after hours,\nin the way out there,\na blemish on the face of the moon.\nHere I have my little life,\nentering numbers into a spreadsheet,\nboundless scrolling\nthrough the twinkling, untilled field,\nso the cells can conduct electricity\nand a flash of people kissing, chatting, staying up at night\ncan pass through the air.\nOut there, \nonly metal can pierce the sky without dying,\nwhich I guess really means that\nonly objects may receive a violence\nso vast as to be beautiful.`,
+          text: `It’s death outside
+but each passing headlight
+is a howl through the canyons.
+The universe makes a thousand copies of everything:
+flat scrub grass, sawtooth mountains
+paper bag bush
+and the desert woolly star.
+Reminds me of leaving the office,
+the mirage of one last coworker headed to his car
+in the violet after hours,
+in the way out there,
+a blemish on the face of the moon.
+Here I have my little life,
+entering numbers into a spreadsheet,
+boundless scrolling
+through the twinkling, untilled field,
+so the cells can conduct electricity
+and a flash of people kissing, chatting, staying up at night
+can pass through the air.
+Out there, 
+only metal can pierce the sky without dying,
+which I guess really means that
+only objects may receive a violence
+so vast as to be beautiful.`,
           bio: `Hua Xi is a writer and artist and occasional art critic. Their work has appeared in American Poetry Review, The Nation and Boston Review. They love the sky. Twitter/Insta: @huaxixyz`,
           next: "aria-aber"
         },
@@ -376,7 +417,58 @@
           author: "Aria Aber",
           title: "Mother of All Balms",
           epigraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          text: `Morning she comes, mother of all balms.\n\nOnly the news reporter says it wrong:\nbut aren’t you strung: little ping\n\nand doesn’t memory embalm\n          your most-hurt city:\n\nthose yellow creeks                    of your rickety holm\nwhere your mater: your salve:\n\nleft all her selves behind\nso she could surrender to a lifetime\n\nof Septembering: what she members most:\n\nyellow grapes and celeries\nand visiting her father’s glove\n\na balm, to be by absence so enclaved:\n\nyour mender\na follower, devoted\n\nto what she cannot see. O air miles,\nhow can it be real?\n\nHow uncertain you should\nbe          if it existed, if there are no photos left\n\nof her playing\non her childhood lawn—\n\nburned are all the documents, or eaten—\n\nthis ink,\nlike memory,\nan ancient unguent,\n\nenshrining what cannot be held\nof what went missing—the dog, her hat of hay,\n\none brother.                    She was in prism,\n\nyour mother says—and that’s how you will write her,\n\natoning her, just in fluorite a figurine caught\n\nto fracture                    her stolen years,\n                              her brother,\n\nall her once-upon-a-chimes.`,
+          text: `Morning she comes, mother of all balms.
+
+Only the news reporter says it wrong:
+but aren’t you strung: little ping
+
+and doesn’t memory embalm
+          your most-hurt city:
+
+those yellow creeks                    of your rickety holm
+where your mater: your salve:
+
+left all her selves behind
+so she could surrender to a lifetime
+
+of Septembering: what she members most:
+
+yellow grapes and celeries
+and visiting her father’s glove
+
+a balm, to be by absence so enclaved:
+
+your mender
+a follower, devoted
+
+to what she cannot see. O air miles,
+how can it be real?
+
+How uncertain you should
+be          if it existed, if there are no photos left
+
+of her playing
+on her childhood lawn—
+
+burned are all the documents, or eaten—
+
+this ink,
+like memory,
+an ancient unguent,
+
+enshrining what cannot be held
+of what went missing—the dog, her hat of hay,
+
+one brother.                    She was in prism,
+
+your mother says—and that’s how you will write her,
+
+atoning her, just in fluorite a figurine caught
+
+to fracture                    her stolen years,
+                              her brother,
+
+all her once-upon-a-chimes.`,
           bio: `Aria Aber was raised in Germany, where she was born to Afghan refugees, and is based in Oakland, California. She is the author of Hard Damage (University of Nebraska Press, 2019) and is currently a Stegner Fellow in Poetry at Stanford University.`,
           next: "hua-xi"
         }
@@ -413,6 +505,10 @@
               <a class="menu-link" href="#submissions">Submissions</a>
             </nav>
           `)}
+
+          <div class="home-art" aria-hidden="true">
+            <img src="${HOME_IMAGE}" alt="">
+          </div>
         </section>
       `;
     }
