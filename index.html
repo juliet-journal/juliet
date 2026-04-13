@@ -143,7 +143,7 @@
     .poem,
     .bio,
     .submission-copy,
-    .masthead-copy,
+    .about-copy,
     .captionish {
       font-size: var(--body2);
       line-height: var(--line);
@@ -227,7 +227,7 @@
     }
 
     .archive-list,
-    .masthead-block,
+    .about-block,
     .submission-block {
       display: flex;
       flex-direction: column;
@@ -237,7 +237,7 @@
     }
 
     .archive-group,
-    .masthead-copy,
+    .about-copy,
     .submission-copy {
       margin-bottom: 22px;
     }
@@ -310,7 +310,7 @@
       .poem,
       .bio,
       .archive-list,
-      .masthead-block,
+      .about-block,
       .submission-block {
         max-width: 100%;
         width: 100%;
@@ -371,7 +371,7 @@
     const content = {
       title: "Juliet",
       current: "hua-xi",
-      about: "Juliet is a journal of writing, publishing poetry and prose. We publish on a rolling basis. This project is inspired by friends.",
+      about: "Juliet is a journal of writing, publishing poetry and prose. We publish on a rolling basis. This project is inspired by friends. Our frontispiece is drawn from a William Morris engraving.",
       editors: "Editors. Andrew Kang, Daniel Liu.",
       submissions: "Please email your submission to editors.juliet@gmail.com, including your name, a short biography, and either one to three poems or one work of prose, in one .docx file.",
       archive: [
@@ -502,7 +502,7 @@ all her once-upon-a-chimes.`,
             <nav class="menu" aria-label="Main menu">
               <a class="menu-link" href="#current">Current</a>
               <a class="menu-link" href="#archive">Archive</a>
-              <a class="menu-link" href="#masthead">Masthead</a>
+              <a class="menu-link" href="#about">About</a>
               <a class="menu-link" href="#submissions">Submissions</a>
             </nav>
           `)}
@@ -556,15 +556,15 @@ all her once-upon-a-chimes.`,
       `;
     }
 
-    function renderMasthead() {
+    function renderAbout() {
       app.innerHTML = `
         <section>
           ${chrome(`
-            <div class="heading">Masthead</div>
+            <div class="heading">About</div>
           `)}
-          <div class="masthead-block">
-            <div class="masthead-copy">${content.about}</div>
-            <div class="masthead-copy">${content.editors}</div>
+          <div class="about-block">
+            <div class="about-copy">${content.about}</div>
+            <div class="about-copy">${content.editors}</div>
           </div>
         </section>
       `;
@@ -587,7 +587,7 @@ all her once-upon-a-chimes.`,
       if (hash === 'home') return renderHome();
       if (hash === 'current') return renderWork(content.current);
       if (hash === 'archive') return renderArchive();
-      if (hash === 'masthead') return renderMasthead();
+      if (hash === 'about') return renderAbout();
       if (hash === 'submissions') return renderSubmissions();
       if (content.works[hash]) return renderWork(hash);
       renderHome();
