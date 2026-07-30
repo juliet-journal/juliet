@@ -13,11 +13,12 @@
     :root {
       --bg: #FAF8ED;
       --paper: #FAF8ED;
-      --ink: #161310;
+      --ink: #171512;
+      --accent: #75658F;
       --rule: rgba(23, 23, 23, 0.14);
-      --body1: 19px;
-      --body2: 16px;
-      --line: 1.18;
+      --body1: clamp(20px, 1.2vw, 21px);
+      --body2: clamp(17px, 0.95vw, 18px);
+      --line: 1.32;
       --page-width: min(40vw, 620px);
       --page-min: 520px;
       --page-height: calc(100dvh - 72px);
@@ -198,6 +199,10 @@
 
     .work-title {
       margin: 0 0 34px 0;
+      font-size: clamp(27px, 2.1vw, 31px);
+      line-height: 1.08;
+      font-weight: 600;
+      color: var(--accent);
     }
 
     .epigraph {
@@ -208,11 +213,35 @@
     .piece-text {
       white-space: pre-wrap;
       margin: 0;
-      max-width: 80%;
+      max-width: 82%;
       font-family: inherit;
       border: 0;
       background: transparent;
       padding: 0;
+    }
+
+    .piece-text.prose {
+      white-space: normal;
+      max-width: 88%;
+      line-height: 1.48;
+    }
+
+    .piece-text.prose p {
+      margin: 0 0 1.15em;
+      text-indent: 1.5em;
+    }
+
+    .piece-text.prose p:first-child {
+      text-indent: 0;
+    }
+
+    .drop-cap {
+      float: left;
+      color: var(--accent);
+      font-size: 4.1em;
+      line-height: 0.74;
+      margin: 0.08em 0.09em 0 0;
+      font-weight: 500;
     }
 
     .bio {
@@ -262,8 +291,8 @@
         --page-width: calc(100vw - 24px);
         --page-min: 0px;
         --page-height: calc(100dvh - 24px);
-        --body1: 18px;
-        --body2: 15px;
+        --body1: clamp(20px, 2.15vw, 21px);
+        --body2: clamp(17px, 1.8vw, 18px);
         --pad-x: 18px;
         --pad-y: 18px;
       }
@@ -301,8 +330,8 @@
       :root {
         --page-width: calc(100vw - 16px);
         --page-height: calc(100dvh - 16px);
-        --body1: 17px;
-        --body2: 14px;
+        --body1: 19px;
+        --body2: 16px;
         --pad-x: 14px;
         --pad-y: 14px;
       }
@@ -317,6 +346,7 @@
       }
 
       .piece-text,
+      .piece-text.prose,
       .bio,
       .archive-list,
       .about-block,
@@ -484,6 +514,7 @@ all her once-upon-a-chimes.`,
         },
         "garry-nitz": {
   slug: "garry-nitz",
+  prose: true,
   author: "Garry Nitz",
   title: "Heads",
   epigraph: "a story",
@@ -554,9 +585,27 @@ all her once-upon-a-chimes.`,
       }
     }
 
+    function formatProse(text) {
+      const paragraphs = text
+        .trim()
+        .split(/\n\s*\n/)
+        .map(paragraph => paragraph.replace(/^&emsp;/, '').trim());
+
+      return paragraphs.map((paragraph, index) => {
+        if (index === 0) {
+          paragraph = paragraph.replace(/^([^A-Za-zÀ-ÖØ-öø-ÿ]*)([A-Za-zÀ-ÖØ-öø-ÿ])/, '$1<span class="drop-cap">$2</span>');
+        }
+        return `<p>${paragraph}</p>`;
+      }).join('');
+    }
+
     function renderWork(key) {
       const work = content.works[key];
       if (!work) return renderHome();
+
+      const pieceHtml = work.prose
+        ? `<div class="piece-text prose">${formatProse(work.text)}</div>`
+        : `<pre class="piece-text">${work.text}</pre>`;
 
       app.innerHTML = `
         <section>
@@ -566,7 +615,7 @@ all her once-upon-a-chimes.`,
           <div class="work-header-space"></div>
           <h1 class="work-title">${work.title}</h1>
           ${work.epigraph ? `<div class="epigraph small">${work.epigraph}</div>` : ``}
-          <pre class="piece-text">${work.text}</pre>
+          ${pieceHtml}
           <div class="bio">${work.bio}</div>
           <div class="work-bottom">
             <a class="work-nav" href="#${work.next}" aria-label="Next work">→</a>
